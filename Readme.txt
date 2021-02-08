@@ -13,4 +13,11 @@ Capas:
 Base datos: MariaDB
 Servidor de aplicaciones WildFly 22
 
+Url de inicio:
+http://localhost:8080/hulk-store/index.jsp
+
+Url servicio Rest:
+http://localhost:8080/hulk-store/rest/consultaProductos
+
+
 
