@@ -21,100 +21,94 @@
 </h:head>
 <h:body oncontextmenu="return false;" styleClass="body">
 	<h:form>
-		<h1>
-			Control del Kardex
-		</h1>
+		<h1>Control del Kardex</h1>
+		<p:panel styleClass="listaProductos">
+			<p:dataTable var="product" value="#{inventario.productos}"
+				paginator="true" selectionMode="single"
+				paginatorAlwaysVisible="ture" lazy="false"
+				rowKey="#{product.productId}"
+				selection="#{inventario.productoSeleccionado}">
+				<p:column headerText="Código">
+					<h:outputText value="#{product.productId}" />
+				</p:column>
 
-		<p:dataTable 
-			var="product" 
-			value="#{inventario.productos}"
-			paginator="true"
-			selectionMode="single"
-			paginatorAlwaysVisible="ture"
-			lazy="false"
-			rowKey="#{product.productId}"
-			selection = "#{inventario.productoSeleccionado}">
-			<p:column headerText="Código">
-				<h:outputText value="#{product.productId}" />
-			</p:column>
+				<p:column headerText="Descripción">
+					<h:outputText value="#{product.descripcion}" />
+				</p:column>
 
-			<p:column headerText="Descripción">
-				<h:outputText value="#{product.descripcion}" />
-			</p:column>
+				<p:column headerText="Precio">
+					<h:outputText value="#{product.precio}" />
+				</p:column>
 
-			<p:column headerText="Precio">
-				<h:outputText value="#{product.precio}" />
-			</p:column>
+				<p:column headerText="Stock en bodega">
+					<h:outputText value="#{product.stock}" />
+				</p:column>
 
-			<p:column headerText="Stock en bodega">
-				<h:outputText value="#{product.stock}" />
-			</p:column>
-			
-			<p:column headerText="Acciones">
-				<p:commandButton value="Ingreso" 
-								 icon="fa fa-edit" 
-								 actionListener="#{inventario.alSeleccionarIngresoInventario(product.productId)}"
-								 update="@(.formularioCantidadIngreso)"/>
-				<p:commandButton value="Egreso" 
-								 icon="fa fa-edit"
-								 actionListener="#{inventario.alSeleccionarEgresoInventario(product.productId)}"
-								 update="@(.formularioCantidadEgreso)"/>
-			</p:column>
-		</p:dataTable>
-
-		<p:dialog header="Ingreso en bodega" 
-				  widgetVar="dlg3" 
-				  minHeight="40" 
-				  width="350" 
-				  showEffect="fade">
+				<p:column headerText="Acciones">
+					<p:commandButton value="Ingreso" icon="fa fa-edit"
+						actionListener="#{inventario.alSeleccionarIngresoInventario(product.productId)}"
+						update="@(.formularioCantidadIngreso)" />
+					<p:commandButton value="Egreso" icon="fa fa-edit"
+						actionListener="#{inventario.alSeleccionarEgresoInventario(product.productId)}"
+						update="@(.formularioCantidadEgreso)" />
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+	<p:dialog header="Ingreso en bodega" widgetVar="dlg3" minHeight="40"
+		width="350" showEffect="fade">
+		<h:form>
 			<p:outputPanel id="pnlIngresarBodega">
 				<p:panel styleClass="formularioCantidadIngreso">
 					<div class="ui-fluid p-formgrid p-grid">
-				    	<div class="p-field p-col-12 p-md-4">
-				        	<p:outputLabel for="inputIngreso" value="Cantidad a ingresar"/>
-				            <p:inputNumber id="inputIngreso" value="#{inventario.cantidadSolicitada}" modifyValueOnWheel="false" />
-				         </div>
-			    	</div>
-			    	<hr/>
-				    <f:facet name="footer">
-						<p:commandButton type="button" value="Cancelar" styleClass="ui-button-flat p-mr-2" style="width: 6rem" />
-						<p:commandButton 
-							value="Ingresar"
-							id="btnIngresarInventario"
-							style="width: 8rem" 
-							action="#{inventario.ingresarInvetario()}"
-							icon="fa fa-floppy-o"/>
-					</f:facet>	
-				</p:panel>  
-			</p:outputPanel>        	
-		</p:dialog>
+						<div class="p-field p-col-12 p-md-4">
+							<p:outputLabel for="inputIngreso" value="Cantidad a ingresar" />
+							<p:inputNumber id="inputIngreso"
+								value="#{inventario.cantidadSolicitada}"
+								modifyValueOnWheel="false">
+								<p:ajax event="blur"></p:ajax>
+							</p:inputNumber>
+						</div>
+					</div>
+					<hr />
+					<f:facet name="footer">
+						<p:commandButton type="button" value="Cancelar"
+							styleClass="ui-button-flat p-mr-2" style="width: 6rem" />
+						<p:commandButton value="Ingresar" id="btnIngresarInventario"
+							style="width: 8rem" action="#{inventario.ingresarInvetario()}"
+							icon="fa fa-floppy-o" update="@(.listaProductos)" />
+					</f:facet>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
 
-		<p:dialog header="Egreso de bodega" 
-				  widgetVar="dlg4" 
-				  minHeight="40" 
-				  width="350" 
-				  showEffect="fade">
+	<p:dialog header="Egreso de bodega" widgetVar="dlg4" minHeight="40"
+		width="350" showEffect="fade">
+		<h:form>
 			<p:outputPanel id="pnlEgresarBodega">
 				<p:panel styleClass="formularioCantidadEgreso">
 					<div class="ui-fluid p-formgrid p-grid">
-				    	<div class="p-field p-col-12 p-md-4">
-				        	<p:outputLabel for="inputEgreso" value="Cantidad a egresar"/>
-				            <p:inputNumber id="inputEgreso" value="#{inventario.cantidadSolicitada}" modifyValueOnWheel="false" />
-				         </div>
-			    	</div>
-			    	<hr/>
-				    <f:facet name="footer">
-						<p:commandButton type="button" value="Cancelar" styleClass="ui-button-flat p-mr-2" style="width: 6rem" />
-						<p:commandButton 
-							value="Egresar"
-							id="btnEgresarInventario"
-							style="width: 8rem" 
-							action="#{inventario.egresarInventario()}"
-							icon="fa fa-floppy-o"/>
-					</f:facet>	
-				</p:panel>  
-			</p:outputPanel>        	
-		</p:dialog>
-	</h:form>
+						<div class="p-field p-col-12 p-md-4">
+							<p:outputLabel for="inputEgreso" value="Cantidad a egresar" />
+							<p:inputNumber id="inputEgreso"
+								value="#{inventario.cantidadSolicitada}"
+								modifyValueOnWheel="false">
+								<p:ajax event="blur"></p:ajax>
+							</p:inputNumber>
+						</div>
+					</div>
+					<hr />
+					<f:facet name="footer">
+						<p:commandButton type="button" value="Cancelar"
+							styleClass="ui-button-flat p-mr-2" style="width: 6rem" />
+						<p:commandButton value="Egresar" id="btnEgresarInventario"
+							style="width: 8rem" action="#{inventario.egresarInventario()}"
+							icon="fa fa-floppy-o" update="@(.listaProductos)" />
+					</f:facet>
+				</p:panel>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
 </h:body>
 </html>

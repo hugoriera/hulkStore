@@ -25,9 +25,7 @@ import com.hulk.servicios.inventario.GestionInventarioServicio;
  * @author Hugo Riera Campos
  *
  */
-class GestionInventarioServicioTest {
-	public GestionInventarioServicioTest() {
-	}
+public class GestionInventarioServicioTest {
 
 	@InjectMocks
 	private GestionInventarioServicio gestionInventarioServicio;

@@ -52,6 +52,7 @@ public class GestionProductosServicioTest {
 	public void deberiaObtenerProductos() throws IOException {
 
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		@SuppressWarnings("deprecation")
 		String productos = IOUtils
 				.toString(classLoader.getResourceAsStream("com/hulk/validacionesjson/tbl_producto_202102061215.json"));
 

@@ -68,6 +68,7 @@ public class InventarioController implements Serializable {
 		Inventario inventario = productoActualizar.getInventario();
 		inventario.setStock(inventario.getStock() + this.getCantidadSolicitada());
 		srvGestionInventario.actualizarInventario(inventario);
+		this.cargarProductos();
 		JsfUtils.mostrarOcutarDialogo(DIALOGO_INGRESAR, Boolean.FALSE);
 	}
 
@@ -80,10 +81,10 @@ public class InventarioController implements Serializable {
 		Inventario inventario = productoActualizar.getInventario();
 
 		if (inventario.getStock() > 0) {
-			inventario.setStock(inventario.getStock() - productoSeleccionado.getCantidadSolicitada());
+			inventario.setStock(inventario.getStock() - this.getCantidadSolicitada());
 			srvGestionInventario.actualizarInventario(inventario);
 		}
-
+		this.cargarProductos();
 		JsfUtils.mostrarOcutarDialogo(DIALOGO_EGRESAR, Boolean.FALSE);
 	}
 
@@ -102,6 +103,9 @@ public class InventarioController implements Serializable {
 	 */
 	private void cargarProductos() {
 		ProductoViewModel productoViewModel;
+
+		this.productos = new ArrayList<ProductoViewModel>();
+
 		for (Producto producto : listaProductos) {
 			productoViewModel = new ProductoViewModel();
 			productoViewModel.setProductId(producto.getId());
