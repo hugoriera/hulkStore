@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.hulk</groupId>
+	<artifactId>hulk-store</artifactId>
+	<version>2.0.0</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+
+	<description>Arquetipo UTE para desarrollo JEE8</description>
+
+	<organization>
+		<name>Universidad Tecnologica Equinoccial</name>
+		<url>http://www.ute.edu.ec</url>
+	</organization>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.jdk.version>1.8</java.jdk.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<plugin.releases.version>2.5.2</plugin.releases.version>
+		<plugin.jar.version>2.4</plugin.jar.version>
+		<plugin.war.version>2.2</plugin.war.version>
+		<plugin.compiler.version>3.3</plugin.compiler.version>
+		<plugin.site.version>3.4</plugin.site.version>
+
+		<!-- LOG UTIL -->
+		<version.slf4j>1.7.7</version.slf4j>
+		<version.log4j>2.2</version.log4j>
+		<wildfly-feature-pack.version>20.0.1.Final</wildfly-feature-pack.version>
+
+	</properties>
+
+	<build>
+		<plugins>
+			<!-- Compila el proyecto con la version de JDK especificada -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${plugin.compiler.version}</version>
+				<configuration>
+					<source>${java.jdk.version}</source>
+					<target>${java.jdk.version}</target>
+				</configuration>
+			</plugin>
+			<!-- Site plugin para maven 3 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>${plugin.site.version}</version>
+			</plugin>
+			<!-- Liberacion versiones -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>${plugin.releases.version}</version>
+				<configuration>
+					<allowTimestampedSnapshots>false</allowTimestampedSnapshots>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!-- Para Servlet 3.0 no se requiere el descriptor web.xml -->
+				<!-- <plugin> -->
+				<!-- <groupId>org.apache.maven.plugins</groupId> -->
+				<!-- <artifactId>maven-war-plugin</artifactId> -->
+				<!-- <version>${plugin.war.version}</version> -->
+				<!-- <configuration> -->
+				<!-- <failOnMissingWebXml>false</failOnMissingWebXml> -->
+				<!-- </configuration> -->
+				<!-- </plugin> -->
+			</plugins>
+		</pluginManagement>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.wildfly</groupId>
+			<artifactId>wildfly-feature-pack</artifactId>
+			<version>14.0.1.Final</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+		
+	</dependencies>
+	<modules>
+		<module>hulk-store-modelo</module>
+		<module>hulk-store-servicio</module>
+		<module>hulk-store-interfaz</module>
+		<module>hulk-store-web</module>
+	</modules>
+</project>

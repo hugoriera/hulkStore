@@ -1,0 +1,115 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+
+	<p:dialog modal="true" id="dlgEditAplicacion" dynamic="true"
+		width="30%" widgetVar="wDlgEditAplicacion">
+
+		<f:facet name="header">
+			<p:outputPanel autoUpdate="true">
+				<h:outputText
+					value="#{admAplicacion.aplicacionSel.id==null?tmpl['boton.crear']:tmpl['boton.actualizar']}" />
+			</p:outputPanel>
+		</f:facet>
+
+		<h:form>
+			<p:outputPanel id="pnlDlgEditAplicacion">
+
+				<p:fieldset legend="General">
+
+					<table class="ute-ancho-100">
+						<tr>
+							<td><p:outputLabel value="Código:"
+									styleClass="ute-right ute-etiquetas" /></td>
+							<td colspan="3"><p:outputPanel autoUpdate="true">
+									<h:outputText styleClass="ute-upperCase ute-ancho-100"
+										rendered="#{admAplicacion.aplicacionSel.id!=null}"
+										value="#{admAplicacion.aplicacionSel.codigo}" />
+
+									<f:selectItem itemLabel="#{tmpl['etiqueta.seleccione']}"
+										itemValue="#{null}" noSelectionOption="true" />
+
+									<p:inputText styleClass="ute-ancho-100"
+										rendered="#{admAplicacion.aplicacionSel.id==null}"
+										value="#{admAplicacion.aplicacionSel.codigo}" />
+
+								</p:outputPanel></td>
+						</tr>
+						<tr>
+							<td><p:outputLabel value="Contexto:"
+									styleClass="ute-right ute-etiquetas" /></td>
+							<td colspan="3"><p:inputText styleClass="ute-ancho-100"
+									value="#{admAplicacion.aplicacionSel.contexto}" /></td>
+						</tr>
+						<tr>
+							<td><p:outputLabel value="Nombre:"
+									styleClass="ute-right ute-etiquetas" /></td>
+							<td><p:inputTextarea rows="3" styleClass="ute-ancho-100"
+									value="#{admAplicacion.aplicacionSel.nombre}" /></td>
+							<td><p:outputLabel value="Descripción:"
+									styleClass="ute-right ute-etiquetas ute-columna-descripcion" /></td>
+							<td><p:inputTextarea rows="3" styleClass="ute-ancho-100"
+									value="#{admAplicacion.aplicacionSel.descripcion}" /></td>
+						</tr>
+					</table>
+
+				</p:fieldset>
+				<br />
+				<p:fieldset legend="Fechas">
+
+					<h:panelGrid
+						columnClasses="ute-etiquetas ute-ancho-15,,ute-etiquetas ute-ancho-15,"
+						columns="4">
+
+						<p:outputLabel value="#{tmpl['fecha.inicio']}:" />
+						<p:outputPanel styleClass="ute-ancho-100">
+							<p:calendar pattern="yyyy/mm/dd" styleClass="ute-ancho-60"
+								value="#{admAplicacion.aplicacionSel.fechaInicio}">
+
+							</p:calendar>
+						</p:outputPanel>
+
+						<p:outputLabel value="#{tmpl['fecha.fin']}:" />
+						<p:outputPanel styleClass="ute-ancho-100">
+							<p:calendar pattern="yyyy/mm/dd" styleClass="ute-ancho-60"
+								value="#{admAplicacion.aplicacionSel.fechaFin}">
+							</p:calendar>
+						</p:outputPanel>
+
+						<p:outputLabel value="#{lbl['aplicacion.estado.etiqueta']}:" />
+						<p:outputPanel styleClass="ute-ancho-60">
+							<p:selectBooleanButton onLabel="#{tmpl['sistema.enLinea.si']}"
+								styleClass="ute-ancho-20,ute-ancho-100"
+								offLabel="#{tmpl['sistema.enLinea.no']}"
+								value="#{admAplicacion.aplicacionSel.enLinea}" />
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:fieldset>
+				<br />
+
+
+				<p:separator styleClass="uteHr" />
+				<center>
+					<p:commandButton value="#{tmpl['boton.guardar']}"
+						id="btnIAplicacion"
+						action="#{admAplicacion.crearActualizaAplicacion()}"
+						update=":#{p:component('dlgMsg')} 
+								:#{p:component('pnlDlgAplicacion')} 
+								:#{p:component('tblLstAplicacion')}"
+						icon="fa fa-floppy-o"
+						styleClass="ui-confirmdialog-yes botonGeneralAuto botonNormal">
+					</p:commandButton>
+
+					<p:commandButton value="#{tmpl['boton.salir']}"
+						update=":#{p:component('dlgMsg')}"
+						oncomplete="PF('wDlgEditAplicacion').hide();" icon="fa fa-times"
+						styleClass="ui-confirmdialog-no botonGeneralAuto botonNormal">
+					</p:commandButton>
+				</center>
+			</p:outputPanel>
+		</h:form>
+	</p:dialog>
+</ui:composition>

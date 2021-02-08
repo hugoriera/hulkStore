@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <tbl_inventario inventario_id="1" producto_id="1" stock="10"/>
+  <tbl_inventario inventario_id="2" producto_id="2" stock="0"/>
+  <tbl_inventario inventario_id="3" producto_id="3" stock="30"/>
+  <tbl_inventario inventario_id="4" producto_id="4" stock="1"/>
+  <tbl_inventario inventario_id="5" producto_id="5" stock="20"/>
+</dataset>
+

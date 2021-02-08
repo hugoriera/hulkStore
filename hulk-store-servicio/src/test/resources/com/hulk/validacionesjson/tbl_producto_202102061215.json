@@ -1,0 +1,39 @@
+{
+"listaProductos":[
+	{
+		"id" : 1,
+		"descripcion" : "Camiseta capitan america",
+		"tipoProductoId" : 1,
+		"modeloId" : 1,
+		"precio" : 100
+	},
+	{
+		"id" : 2,
+		"descripcion" : "Vaso capitan america",
+		"tipoProductoId" : 2,
+		"modeloId" : 1,
+		"precio" : 100
+	},
+	{
+		"id" : 3,
+		"descripcion" : "Comics capitan america",
+		"tipoProductoId" : 3,
+		"modeloId" : 1,
+		"precio" : 100
+	},
+	{
+		"id" : 4,
+		"descripcion" : "Figura de acción capitan america",
+		"tipoProductoId" : 4,
+		"modeloId" : 1,
+		"precio" : 100
+	},
+	{
+		"id" : 5,
+		"descripcion" : "Accesorio capitan america",
+		"tipoProductoId" : 5,
+		"modeloId" : 1,
+		"precio" : 100
+	}
+]
+}

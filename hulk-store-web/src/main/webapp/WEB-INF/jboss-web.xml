@@ -1,0 +1,4 @@
+<jboss-web>
+	<!-- URL to access the web module -->
+	<context-root>hulk-store</context-root>
+</jboss-web>

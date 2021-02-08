@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<f:view contracts="#{plantillaController.contrato}">
+
+	<ui:composition template="/conSesion.xhtml">
+
+
+		<ui:define name="metadata">
+			<title><ui:insert name="title">Aplicaciones</ui:insert></title>
+		</ui:define>
+		<ui:define name="contenido">
+
+			<p:panel id="pnlDlgAplicacion">
+
+				<p:dataTable id="tblLstAplicacion" var="apli"
+					value="#{admAplicacion.lstAplicaciones}" selectionMode="single"
+					selection="#{gestionAplicacion.aplicacionSel}" rowKey="#{apli.id}"
+					styleClass="ute-ancho-100" paginator="true" rows="5"
+					paginatorAlwaysVisible="true" paginatorPosition="bottom"
+					emptyMessage="#{tmpl['tabla.vacia']}">
+
+					<f:facet name="header">
+						<div class="ute-header-table ute-ancho-100">
+							<div class="ute-header-row">
+								<div class="ute-header-cell">
+									<h:outputText styleClass="ute-titulo-1 ute-left "
+										value="#{lbl['aplicacion.lst.total']} (#{admAplicacion.lstAplicaciones.size()})" />
+								</div>
+								<div class="ute-header-cell">
+									<p:commandButton value="#{tmpl['boton.nuevo']}"
+										styleClass="botonGeneralAuto botonAnchoMaximo botonNormal ute-right"
+										action="#{admAplicacion.onNuevaAplicacion()}"
+										update=":#{p:component('pnlDlgEditAplicacion')}"
+										id="btnEnviarMensaje" />
+										
+									<p:commandButton value="#{tmpl['boton.nuevo']}"
+										styleClass="botonGeneralAuto botonAnchoMaximo botonNormal ute-right"
+										rendered="#{admAplicacion.puedeCrearEditarAplicacion()}"
+										action="#{admAplicacion.onNuevaAplicacion()}"
+										update=":#{p:component('pnlDlgEditAplicacion')}"
+										id="btnNuevoAplicacion" />
+
+								</div>
+							</div>
+						</div>
+					</f:facet>
+
+					<p:ajax event="rowSelect"
+						listener="#{admMenu.cargarArbolMenuEvento()}"
+						update="@(.contenedorArbol) @(.cuandoSeleccionaAplicacion)" />
+
+					<p:ajax event="rowSelect"
+						listener="#{admRolSeg.cargarRolesDeAplicacion()}"
+						update="@(.contenedorRoles) @(.cuandoSeleccionaAplicacion)" />
+
+					<p:column styleClass="ute-ancho-50 ute-columna-descripcion"
+						headerText="Nombre" filterBy="#{apli.nombre}"
+						filterMatchMode="contains">
+						<p:panelGrid styleClass="gridSinBorde">
+
+							<p:row>
+
+								<p:column rowspan="2" styleClass="ute-columna-centro"
+									style="width: 14px;margin: 0px;padding:0px;">
+									<i class="fa fa-power-off" id="iconoLinea"
+										style="color:#{apli.enLinea?'#66ccff':'red'};"
+										title="#{apli.enLinea?'En Linea':'Fuera de linea'}" />
+								</p:column>
+								<p:column style=" margin: 0px;padding:0px 0px 0px 2px;">
+									<h:outputText id="txtCodigoAplicacion" value="#{apli.codigo}"
+										style="font-size:9px" />
+
+									<pe:tooltip for="txtCodigoAplicacion" value="#{apli.codigo}"
+										hideEvent="blur" mouseTracking="true" myPosition="top left"
+										adjustX="10" adjustY="10" />
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column style="margin: 0px;padding:0px 0px 0px 2px;">
+									<h:outputText id="txtNombreAplicacion" value="#{apli.nombre}"
+										escape="false" />
+
+									<pe:tooltip for="txtNombreAplicacion" value="#{apli.nombre}"
+										mouseTracking="true" myPosition="top left" adjustX="10"
+										hideEvent="blur" adjustY="10" />
+								</p:column>
+							</p:row>
+
+						</p:panelGrid>
+
+					</p:column>
+
+					<p:column styleClass="ute-ancho-40  ute-columna-descripcion"
+						headerText="Contexto"
+						rendered="#{admAplicacion.puedeCrearEditarAplicacion()}">
+						<h:outputText id="txtContextoAplicacion" value="#{apli.contexto}" />
+						<pe:tooltip for="txtContextoAplicacion" value="#{apli.contexto}"
+							hideEvent="blur" mouseTracking="true" myPosition="top left"
+							adjustX="10" adjustY="10" />
+					</p:column>
+
+					<p:column styleClass="ute-ancho-10 ute-columna-centro"
+						headerText="Acciones"
+						rendered="#{admAplicacion.puedeCrearEditarAplicacion()}">
+
+						<p:commandButton id="btnEditAplicacion"
+							styleClass="botonGeneralGrisAuto botonGrisNormal"
+							rendered="#{admAplicacion.puedeCrearEditarAplicacion()}"
+							actionListener="#{admAplicacion.alEditarAplicacion(apli)}"
+							icon="fa fa-edit" process="@this"
+							update=":#{p:component('pnlDlgEditAplicacion')} :#{p:component('tblLstAplicacion')}">
+						</p:commandButton>
+
+						<p:tooltip id="ttBtnEditAplicacion" for="btnEditAplicacion"
+							hideEvent="blur" value="#{tmpl['boton.edita']}" position="top" />
+
+						<p:commandButton id="btnEliminarAplicacion"
+							styleClass="botonGeneralGrisAuto botonGrisNormal"
+							rendered="#{admAplicacion.puedeCrearEditarAplicacion()}"
+							icon="fa fa-trash"
+							update=":#{p:component('dlgMsg')} :#{p:component('tblLstAplicacion')}"
+							action="#{admAplicacion.onEliminarAplicacion(apli)}">
+
+							<p:confirm header="#{tmpl['etiqueta.confirmacion']}"
+								message="#{tmpl['etiqueta.eliminar.confirmar']}"
+								icon="ui-icon-alert">
+							</p:confirm>
+
+
+						</p:commandButton>
+
+						<p:tooltip id="ttBtnEliminarAplicacion"
+							for="btnEliminarAplicacion" value="#{tmpl['boton.eliminar']}"
+							position="top" />
+					</p:column>
+				</p:dataTable>
+
+				<br />
+				<p:outputPanel styleClass="cuandoSeleccionaAplicacion">
+					<h:panelGrid columns="2"
+						rendered="#{null != gestionAplicacion.aplicacionSel.id}"
+						columnClasses="ute-alineado-vertical-top,ute-alineado-vertical-top">
+						<p:outputPanel styleClass="ute-ancho-20"
+							rendered="#{admAplicacion.puedeCrearEditarAplicacion()}">
+							<ui:include src="/pages/private/admMenu/marcos/frmMenu.xhtml" />
+						</p:outputPanel>
+						<p:outputPanel>
+							<ui:include src="/pages/private/admRol/marcos/frmRol.xhtml" />
+							<p:outputPanel styleClass="cuandoRolEsSeleccionado">
+								<h:panelGrid columns="2"
+									rendered="#{null != gestionAplicacion.rolSegSel.id}"
+									columnClasses="ute-alineado-vertical-top  ,ute-alineado-vertical-top">
+
+									<p:outputPanel styleClass="ute-ancho-20">
+										<ui:include
+											src="/pages/private/admMenuRol/marcos/frmMenuRol.xhtml" />
+									</p:outputPanel>
+									<p:outputPanel styleClass="ute-ancho-100">
+
+										<p:outputPanel
+											rendered="#{gestionAplicacion.rolSegSel.tipoRol == 'PERSONAS'}">
+											<ui:include
+												src="/pages/private/admUsuarioRol/marcos/frmUsuarioRol.xhtml" />
+										</p:outputPanel>
+										<p:outputPanel
+											rendered="#{gestionAplicacion.rolSegSel.tipoRol == 'GRUPOS'}">
+											<ui:include
+												src="/pages/private/admRolGrupos/marcos/frmGruposRoles.xhtml" />
+										</p:outputPanel>
+									</p:outputPanel>
+								</h:panelGrid>
+							</p:outputPanel>
+						</p:outputPanel>
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:panel>
+
+		</ui:define>
+
+		<!-- DIALOGOS -->
+		<ui:define name="ute-dialogos">
+			<ui:include
+				src="/pages/private/admRolGrupos/dialogos/editGrupoRol.xhtml" />
+
+			<ui:include
+				src="/pages/private/admAplicacion/dialogos/edicionAplicacion.xhtml">
+			</ui:include>
+			<ui:include src="/pages/private/admMenu/dialogos/edicionMenu.xhtml">
+			</ui:include>
+			<ui:include
+				src="/pages/private/admMenu/dialogos/edicionPaginaInterna.xhtml">
+			</ui:include>
+			<ui:include src="/pages/private/admRol/dialogos/editRol.xhtml">
+			</ui:include>
+			<ui:include
+				src="/pages/private/admUsuarioRol/dialogos/editUsuarioRol.xhtml">
+			</ui:include>
+			<ui:include
+				src="/pages/private/admUsuarioRol/dialogos/vistaDetalleUsuario.xhtml">
+			</ui:include>
+		</ui:define>
+	</ui:composition>
+</f:view>
+</html>

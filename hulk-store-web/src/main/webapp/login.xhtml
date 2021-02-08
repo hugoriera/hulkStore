@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport"
+		content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+
+	<h:outputStylesheet name="/css/uteTemplate.css" />
+	<h:outputStylesheet name="/css/sinSesion.css" />
+
+	<ui:insert name="title">
+		<title>#{lbl['titulo.principal']}</title>
+	</ui:insert>
+</h:head>
+<h:body oncontextmenu="return false;" styleClass="body">
+	<h:form>
+		<h1>
+			Control del Kardex
+		</h1>
+
+		<p:dataTable 
+			var="product" 
+			value="#{inventario.productos}"
+			paginator="true"
+			selectionMode="single"
+			paginatorAlwaysVisible="ture"
+			lazy="false"
+			rowKey="#{product.productId}"
+			selection = "#{inventario.productoSeleccionado}">
+			<p:column headerText="Código">
+				<h:outputText value="#{product.productId}" />
+			</p:column>
+
+			<p:column headerText="Descripción">
+				<h:outputText value="#{product.descripcion}" />
+			</p:column>
+
+			<p:column headerText="Precio">
+				<h:outputText value="#{product.precio}" />
+			</p:column>
+
+			<p:column headerText="Stock en bodega">
+				<h:outputText value="#{product.stock}" />
+			</p:column>
+			
+			<p:column headerText="Acciones">
+				<p:commandButton value="Ingreso" 
+								 icon="fa fa-edit" 
+								 actionListener="#{inventario.alSeleccionarIngresoInventario(product.productId)}"
+								 update="@(.formularioCantidadIngreso)"/>
+				<p:commandButton value="Egreso" 
+								 icon="fa fa-edit"
+								 actionListener="#{inventario.alSeleccionarEgresoInventario(product.productId)}"
+								 update="@(.formularioCantidadEgreso)"/>
+			</p:column>
+		</p:dataTable>
+
+		<p:dialog header="Ingreso en bodega" 
+				  widgetVar="dlg3" 
+				  minHeight="40" 
+				  width="350" 
+				  showEffect="fade">
+			<p:outputPanel id="pnlIngresarBodega">
+				<p:panel styleClass="formularioCantidadIngreso">
+					<div class="ui-fluid p-formgrid p-grid">
+				    	<div class="p-field p-col-12 p-md-4">
+				        	<p:outputLabel for="inputIngreso" value="Cantidad a ingresar"/>
+				            <p:inputNumber id="inputIngreso" value="#{inventario.cantidadSolicitada}" modifyValueOnWheel="false" />
+				         </div>
+			    	</div>
+			    	<hr/>
+				    <f:facet name="footer">
+						<p:commandButton type="button" value="Cancelar" styleClass="ui-button-flat p-mr-2" style="width: 6rem" />
+						<p:commandButton 
+							value="Ingresar"
+							id="btnIngresarInventario"
+							style="width: 8rem" 
+							action="#{inventario.ingresarInvetario()}"
+							icon="fa fa-floppy-o"/>
+					</f:facet>	
+				</p:panel>  
+			</p:outputPanel>        	
+		</p:dialog>
+
+		<p:dialog header="Egreso de bodega" 
+				  widgetVar="dlg4" 
+				  minHeight="40" 
+				  width="350" 
+				  showEffect="fade">
+			<p:outputPanel id="pnlEgresarBodega">
+				<p:panel styleClass="formularioCantidadEgreso">
+					<div class="ui-fluid p-formgrid p-grid">
+				    	<div class="p-field p-col-12 p-md-4">
+				        	<p:outputLabel for="inputEgreso" value="Cantidad a egresar"/>
+				            <p:inputNumber id="inputEgreso" value="#{inventario.cantidadSolicitada}" modifyValueOnWheel="false" />
+				         </div>
+			    	</div>
+			    	<hr/>
+				    <f:facet name="footer">
+						<p:commandButton type="button" value="Cancelar" styleClass="ui-button-flat p-mr-2" style="width: 6rem" />
+						<p:commandButton 
+							value="Egresar"
+							id="btnEgresarInventario"
+							style="width: 8rem" 
+							action="#{inventario.egresarInventario()}"
+							icon="fa fa-floppy-o"/>
+					</f:facet>	
+				</p:panel>  
+			</p:outputPanel>        	
+		</p:dialog>
+	</h:form>
+</h:body>
+</html>

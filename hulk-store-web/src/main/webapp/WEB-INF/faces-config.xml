@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+	version="2.2">
+	<application>
+
+		<locale-config>
+			<default-locale>en</default-locale>
+		</locale-config>
+
+		<resource-bundle>
+			<display-name>mensajes</display-name>
+			<base-name>com.hulk.web.messages</base-name>
+			<var>msg</var>
+		</resource-bundle>
+		<resource-bundle>
+			<description>todas la etiquetas que estan en las vistas</description>
+			<display-name>Etiquetas</display-name>
+			<base-name>com.hulk.web.labels</base-name>
+			<var>lbl</var>
+		</resource-bundle>
+		<resource-bundle>
+			<description>todos los mensajes y avisos que se pueden agregar a la plantilla.</description>
+			<display-name>plantilla</display-name>
+			<base-name>com.hulk.web.template</base-name>
+			<var>tmpl</var>
+		</resource-bundle>
+	</application>
+</faces-config>
